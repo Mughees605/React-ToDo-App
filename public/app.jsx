@@ -16,21 +16,63 @@ handleList:function(e){
 });
 
 var TodoList = React.createClass({
-    handleRemove:function(){
+    getInitialState:function(){
+        return {
+            editing:false,
+        }
+    },
+
+    remove:function(){
         this.props.onRemove(this.props.index);
     },
 
-    render:function(){
+    edit:function(){
+        this.setState({
+            editing:true,
+        })
+    },
+    save:function(){
+
+    },
+
+    renderDisplay:function(){
         return (
-            <li>{this.props.children} <button onClick = {this.handleRemove}>delete</button> </li> 
+            <li>{this.props.children} <button onClick = {this.remove}>delete</button> <button onClick = {this.edit}>edit</button></li> 
         )
-    }
+    },
+    takeHandleSave:function(){
+         var saveValue = this.refs.name.value;
+         this.props.onSave(saveValue,this.props.index);
+         this.setState({
+             editing:false,
+         })
+        },
+
+    renderForm:function(){
+        
+        return (
+        <form>
+        <input type = "text" ref = "name"/>
+        <button onClick = {this.takeHandleSave}>save</button>
+        </form>
+        )
+    },
+   
+   render:function(){
+       if(this.state.editing){
+           return this.renderForm();
+       }
+       else {
+           return this.renderDisplay();
+       }
+   }
 });
 
 
 var TodoApp = React.createClass({
     getInitialState:function(){
         return {
+            editing:false,
 
             notes:[
 
@@ -44,15 +86,22 @@ var TodoApp = React.createClass({
         notes:arr,
     })
     },
-     remove:function(i){
+     handleRemove:function(i){
      var arr = this.state.notes;
      arr.splice(i,1);
      this.setState({
          notes:arr,
      })
     },
+    handleSave:function(save,i){
+    var arr = this.state.notes;
+    arr[i] = save;
+    this.setState({
+        notes:arr
+    })
+    },
     eachNote:function(note,i){
-        return  <TodoList key = {i} index = {i} onRemove = {this.remove}>{note}</TodoList>
+        return  <TodoList key = {i} index = {i} onRemove = {this.handleRemove} onSave = {this.handleSave}>{note}</TodoList>
     },
     render:function(){
         return (
