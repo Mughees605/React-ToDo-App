@@ -52,7 +52,7 @@ var TodoList = React.createClass({
         
         return (
         <form>
-        <input type = "text" ref = "name"/>
+        <input type = "text" ref = "name" defaultValue = {this.props.children}/>
         <button onClick = {this.takeHandleSave}>save</button>
         </form>
         )
