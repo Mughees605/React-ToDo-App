@@ -7,8 +7,8 @@ handleList:function(e){
 },
     render:function(){
         return(
-            <form onSubmit = {this.handleList}>
-            <input type="text" ref = "name"/>
+            <form onSubmit = {this.handleList} className = "form-group">
+            <input type="text" ref = "name" className = "form-control"/>
             <button>+</button>
             </form>
         )
@@ -37,7 +37,13 @@ var TodoList = React.createClass({
 
     renderDisplay:function(){
         return (
-            <li>{this.props.children} <button onClick = {this.remove}>delete</button> <button onClick = {this.edit}>edit</button></li> 
+            <li>
+            {this.props.children}
+            <span>
+            <button onClick = {this.remove}>delete</button>
+            <button onClick = {this.edit}>edit</button>
+            </span>
+            </li> 
         )
     },
     takeHandleSave:function(){
@@ -52,7 +58,7 @@ var TodoList = React.createClass({
         
         return (
         <form>
-        <input type = "text" ref = "name" defaultValue = {this.props.children}/>
+        <input type = "text" ref = "name" defaultValue = {this.props.children} className = "form-control"/>
         <button onClick = {this.takeHandleSave}>save</button>
         </form>
         )
